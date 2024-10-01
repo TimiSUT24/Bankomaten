@@ -34,6 +34,12 @@
                 Console.WriteLine("fel");
             }
 
+            if (fel == 3)
+            {
+                Console.WriteLine("Stänger bankomaten");
+                break;
+            }
+
             static void Main(string[] args)
         {
             Console.WriteLine("Välkommen till bankomaten");
