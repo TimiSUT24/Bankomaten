@@ -8,7 +8,12 @@
 
         static void Login()
         {
+            int fel = 0;
 
+            Console.WriteLine("Enter Your username");
+            string username = Console.ReadLine();
+            Console.WriteLine("Enter Your password");
+            int password = int.Parse(Console.ReadLine());
         }
 
         static void Main(string[] args)
