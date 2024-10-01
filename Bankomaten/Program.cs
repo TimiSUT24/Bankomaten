@@ -5,6 +5,12 @@
         static string[] users = ["Tim", "Adam", "Mos", "Sam", "Kim"];
         static int[] passwords = [1, 2, 3, 4, 5];
 
+
+        static void Login()
+        {
+
+        }
+
         static void Main(string[] args)
         {
             Console.WriteLine("Välkommen till bankomaten");
