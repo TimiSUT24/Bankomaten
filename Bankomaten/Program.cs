@@ -6,17 +6,27 @@
         static int[] passwords = [1, 2, 3, 4, 5];
         static int userid; 
 
-        static void Login()
+        static void Login(string[] users, int[] passwords, int userid)
         {
             int fel = 0;
+            bool loggedIn = false;
 
             Console.WriteLine("Enter Your username");
             string username = Console.ReadLine();
             Console.WriteLine("Enter Your password");
             int password = int.Parse(Console.ReadLine());
 
-            for ()
-        }
+            for (userid = 0; userid < users.Length; userid++)
+            {
+                if (username == users[userid] && password == passwords[userid])
+                {
+
+                    Console.WriteLine("Du lyckades logga in " + users[userid]);
+                    
+                    loggedIn = true;
+
+                }
+            }
 
         static void Main(string[] args)
         {
