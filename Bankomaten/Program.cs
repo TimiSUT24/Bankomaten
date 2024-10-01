@@ -28,7 +28,13 @@
                 }
             }
 
-        static void Main(string[] args)
+            if (!loggedIn)
+            {
+                fel++;
+                Console.WriteLine("fel");
+            }
+
+            static void Main(string[] args)
         {
             Console.WriteLine("Välkommen till bankomaten");
 
