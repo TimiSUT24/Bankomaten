@@ -4,7 +4,7 @@
     {
         static string[] users = ["Tim", "Adam", "Mos", "Sam", "Kim"];
         static int[] passwords = [1, 2, 3, 4, 5];
-
+        static int userid; 
 
         static void Login()
         {
@@ -14,6 +14,8 @@
             string username = Console.ReadLine();
             Console.WriteLine("Enter Your password");
             int password = int.Parse(Console.ReadLine());
+
+            for ()
         }
 
         static void Main(string[] args)
