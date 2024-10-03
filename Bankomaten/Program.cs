@@ -5,15 +5,15 @@
         static string[] users = ["Tim", "Adam", "Mos", "Sam", "Kim"];
         static int[] passwords = [1, 2, 3, 4, 5];
         static int userid;
-        static double[] savingsaccount = [5, 10, 15, 20, 25];
-        static double[] paymentaccount = [10, 15, 20, 25, 30];
+        static double[] savingsAccount = [5, 10, 15, 20, 25];
+        static double[] paymentAccount = [10, 15, 20, 25, 30];
 
         static void Login(string[] users, int[] passwords, int userid)
         {
             int guesses = 0;
-            bool loggedin = false;
+            bool loggedIn = false;
 
-            while (guesses < 3 && !loggedin)
+            while (guesses < 3 && !loggedIn)
             {
                 Console.WriteLine("Enter Your username");
                 string username = Console.ReadLine();
@@ -26,14 +26,14 @@
                     {
                         
                         Console.WriteLine("Du lyckades logga in " + users[userid]);
-                        loggedin = true;
+                        loggedIn = true;
                         LoggedIn(users, userid);
                         
 
                     }
                 }
 
-                if (!loggedin)
+                if (!loggedIn)
                 {
                     guesses++;
                     Console.WriteLine("fel");
@@ -54,9 +54,9 @@
             Console.WriteLine("1: Logga in" +
                               "\n2: Exit");
 
-            int startmenu = int.Parse(Console.ReadLine());
+            int startMenu = int.Parse(Console.ReadLine());
 
-            switch (startmenu)
+            switch (startMenu)
             {
                 case 1:
                     Login(users, passwords, userid);
@@ -78,14 +78,14 @@
                               "3: Ta ut pengar\n" +
                               "4: Logga ut");
 
-            int loggedinmenu;
-            string userchoose = Console.ReadLine();
-            if(int.TryParse(userchoose, out loggedinmenu))
+            int loggedInMenu;
+            string userChoose = Console.ReadLine();
+            if(int.TryParse(userChoose, out loggedInMenu))
             {
-                switch (loggedinmenu)
+                switch (loggedInMenu)
                 {
                     case 1:
-                        Accounts(savingsaccount, userid, paymentaccount);
+                        Accounts(savingsAccount, userid, paymentAccount);
                         break;
                     case 2:
                         
@@ -110,10 +110,10 @@
 
         }
 
-        static void Accounts(double[] savingsaccount, int userid, double[] paymentaccount)
+        static void Accounts(double[] savingsAccount, int userid, double[] paymentAccount)
         {
-            Console.WriteLine("Lönekonto: " + paymentaccount[userid] + "kr");
-            Console.WriteLine("Sparkonto: " + savingsaccount[userid] + "kr");
+            Console.WriteLine("Lönekonto: " + paymentAccount[userid] + "kr");
+            Console.WriteLine("Sparkonto: " + savingsAccount[userid] + "kr");
 
             Console.WriteLine("\nKlicka Enter för att komma till Menyn");
             ConsoleKeyInfo enter = Console.ReadKey();
@@ -124,23 +124,23 @@
 
         }
 
-        static void Transfer(double[] savingsaccount, int userid, double[] paymentaccount)
+        static void Transfer(double[] savingsAccount, int userid, double[] paymentAccount)
         {
             Console.WriteLine("Välj konto att ta pengar från" +
                               "\n1: Lönekonto" +
                               "\n2: Sparkonto");
 
             double transfer;
-            int chooseaccount = int.Parse(Console.ReadLine());
+            int chooseAccount = int.Parse(Console.ReadLine());
 
-            switch (chooseaccount)
+            switch (chooseAccount)
             {
                 case 1:
                     Console.WriteLine("Välj konto att överföra till" +
                                       "\n1: Sparkonto");
-                    int choosetransfer = int.Parse(Console.ReadLine());
+                    int chooseTransfer = int.Parse(Console.ReadLine());
 
-                    switch (choosetransfer)
+                    switch (chooseTransfer)
                     {
                         case 1:
                             Console.WriteLine("Hur mycket vill du överföra");
