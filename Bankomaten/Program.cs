@@ -92,7 +92,7 @@
                         
                         break;
                     case 4:
-                       
+                        Login(users, passwords, userid);
                         break;
                     default:
                         Console.WriteLine("Fel siffra");
@@ -106,6 +106,10 @@
                 LoggedIn(users, userid);
             }
 
+            static void Konton(double[] saldon, int userid, double[] lönekonto)
+            {
+
+            }
 
 
 
