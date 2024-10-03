@@ -22,10 +22,11 @@
                 {
                     if (username == users[userid] && password == passwords[userid])
                     {
-
+                        
                         Console.WriteLine("Du lyckades logga in " + users[userid]);
-
                         loggedIn = true;
+                        LoggedIn(users, userid);
+                        
 
                     }
                 }
@@ -63,6 +64,11 @@
                     break;
 
             }
+        }
+
+        static void LoggedIn(string[] users, int userid)
+        {
+
         }
 
     }
