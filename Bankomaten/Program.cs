@@ -9,9 +9,9 @@
         static void Login(string[] users, int[] passwords, int userid)
         {
             int guesses = 0;
-            bool loggedIn = false;
+            bool loggedin = false;
 
-            while (guesses < 3 && !loggedIn)
+            while (guesses < 3 && !loggedin)
             {
                 Console.WriteLine("Enter Your username");
                 string username = Console.ReadLine();
@@ -24,14 +24,14 @@
                     {
                         
                         Console.WriteLine("Du lyckades logga in " + users[userid]);
-                        loggedIn = true;
+                        loggedin = true;
                         LoggedIn(users, userid);
                         
 
                     }
                 }
 
-                if (!loggedIn)
+                if (!loggedin)
                 {
                     guesses++;
                     Console.WriteLine("fel");
@@ -52,9 +52,9 @@
             Console.WriteLine("1: Logga in" +
                               "\n2: Exit");
 
-            int startMenu = int.Parse(Console.ReadLine());
+            int startmenu = int.Parse(Console.ReadLine());
 
-            switch (startMenu)
+            switch (startmenu)
             {
                 case 1:
                     Login(users, passwords, userid);
@@ -75,6 +75,13 @@
                               "2: Överföring mellan konton\n" +
                               "3: Ta ut pengar\n" +
                               "4: Logga ut");
+
+            int loggedinmenu;
+            string userchoose = Console.ReadLine();
+            if(int.TryParse(userchoose, out loggedinmenu))
+            {
+
+            }
 
             
             
