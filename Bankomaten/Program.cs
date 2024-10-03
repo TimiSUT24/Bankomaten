@@ -5,6 +5,8 @@
         static string[] users = ["Tim", "Adam", "Mos", "Sam", "Kim"];
         static int[] passwords = [1, 2, 3, 4, 5];
         static int userid;
+        static double[] savingsaccount = [5, 10, 15, 20, 25];
+        static double[] paymentaccount = [10, 15, 20, 25, 30];
 
         static void Login(string[] users, int[] passwords, int userid)
         {
@@ -106,13 +108,19 @@
                 LoggedIn(users, userid);
             }
 
-            static void Konton(double[] saldon, int userid, double[] lönekonto)
+        }
+
+        static void Accounts(double[] savingsaccount, int userid, double[] paymentaccount)
+        {
+            Console.WriteLine("Lönekonto: " + paymentaccount[userid] + "kr");
+            Console.WriteLine("Sparkonto: " + savingsaccount[userid] + "kr");
+
+            Console.WriteLine("\nKlicka Enter för att komma till Menyn");
+            ConsoleKeyInfo enter = Console.ReadKey();
+            if (enter.Key == ConsoleKey.Enter)
             {
-
+                LoggedIn(users, userid);
             }
-
-
-
 
         }
 
