@@ -126,7 +126,27 @@
 
         static void Transfer(double[] savingsaccount, int userid, double[] paymentaccount)
         {
+            Console.WriteLine("Välj konto att ta pengar från" +
+                              "\n1: Lönekonto" +
+                              "\n2: Sparkonto");
 
+            double transfer;
+            int chooseaccount = int.Parse(Console.ReadLine());
+
+            switch (chooseaccount)
+            {
+                case 1:
+                    Console.WriteLine("Välj konto att överföra till" +
+                                      "\n1: Sparkonto");
+                    int choosetransfer = int.Parse(Console.ReadLine());
+
+                    switch (choosetransfer)
+                    {
+                        case 1:
+                            Console.WriteLine("Hur mycket vill du överföra");
+                            transfer = double.Parse(Console.ReadLine());
+                    }
+            }
         }
 
     }
