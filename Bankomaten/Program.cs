@@ -50,7 +50,7 @@
             Console.WriteLine("Välkommen till bankomaten");
 
             Console.WriteLine("1: Logga in" +
-                              "2: Exit");
+                              "\n2: Exit");
 
             int startMenu = int.Parse(Console.ReadLine());
 
@@ -68,6 +68,14 @@
 
         static void LoggedIn(string[] users, int userid)
         {
+            Console.WriteLine("\nDu är inloggad som " + users[userid] +
+                                "\nVad vill du göra?\n");
+
+            Console.WriteLine("1: Se dina konton och saldo\n" +
+                              "2: Överföring mellan konton\n" +
+                              "3: Ta ut pengar\n" +
+                              "4: Logga ut");
+            
 
         }
 
