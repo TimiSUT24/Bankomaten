@@ -80,12 +80,35 @@
             string userchoose = Console.ReadLine();
             if(int.TryParse(userchoose, out loggedinmenu))
             {
-
+                switch (loggedinmenu)
+                {
+                    case 1:
+                        
+                        break;
+                    case 2:
+                        
+                        break;
+                    case 3:
+                        
+                        break;
+                    case 4:
+                       
+                        break;
+                    default:
+                        Console.WriteLine("Fel siffra");
+                        LoggedIn(users, userid);
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt val");
+                LoggedIn(users, userid);
             }
 
-            
-            
-            
+
+
+
 
         }
 
