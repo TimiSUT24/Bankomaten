@@ -8,10 +8,10 @@
 
         static void Login(string[] users, int[] passwords, int userid)
         {
-            int fel = 0;
+            int guesses = 0;
             bool loggedIn = false;
 
-            while (fel < 3 && !loggedIn)
+            while (guesses < 3 && !loggedIn)
             {
                 Console.WriteLine("Enter Your username");
                 string username = Console.ReadLine();
@@ -33,11 +33,11 @@
 
                 if (!loggedIn)
                 {
-                    fel++;
+                    guesses++;
                     Console.WriteLine("fel");
                 }
 
-                if (fel == 3)
+                if (guesses == 3)
                 {
                     Console.WriteLine("Stänger bankomaten");
                     break;
@@ -75,6 +75,9 @@
                               "2: Överföring mellan konton\n" +
                               "3: Ta ut pengar\n" +
                               "4: Logga ut");
+
+            
+            
             
 
         }
