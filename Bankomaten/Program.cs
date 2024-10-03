@@ -85,7 +85,7 @@
                 switch (loggedinmenu)
                 {
                     case 1:
-                        
+                        Accounts(savingsaccount, userid, paymentaccount);
                         break;
                     case 2:
                         
@@ -121,6 +121,11 @@
             {
                 LoggedIn(users, userid);
             }
+
+        }
+
+        static void Transfer(double[] savingsaccount, int userid, double[] paymentaccount)
+        {
 
         }
 
