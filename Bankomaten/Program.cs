@@ -217,7 +217,10 @@
             switch (chooseAccount)
             {
                 case 1:
-
+                    Console.WriteLine("Hur mycket pengar vill du ta ut? ");
+                    double takeMoney = double.Parse(Console.ReadLine());
+                    Console.WriteLine("Bekräfta din transaktion med din pinkod");
+                    int pinCode = int.Parse(Console.ReadLine());
                     break;
 
                 case 2:
