@@ -145,8 +145,17 @@
                         case 1:
                             Console.WriteLine("Hur mycket vill du överföra");
                             transfer = double.Parse(Console.ReadLine());
+                            if (transfer < 0)
+                            {
+                                Console.WriteLine("Ditt tal kan inte vara mindre än noll");
+                                Transfer(savingsAccount, userid, paymentAccount);
+                            }
+                            if (transfer > paymentAccount[userid])
+                            {
+                                Console.WriteLine("Du kan inte ta ut så mycket pengar");
+                                Transfer(savingsAccount, userid, paymentAccount);
+                            }
                     }
-            }
         }
 
     }
