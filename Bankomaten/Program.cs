@@ -1,4 +1,6 @@
-﻿namespace Bankomaten
+﻿using System.Net.NetworkInformation;
+
+namespace Bankomaten
 {
     internal class Program
     {
@@ -221,6 +223,31 @@
                     double takeMoney = double.Parse(Console.ReadLine());
                     Console.WriteLine("Bekräfta din transaktion med din pinkod");
                     int pinCode = int.Parse(Console.ReadLine());
+
+                    if (pinCode != passwords[userid])
+                    {
+                        Console.WriteLine("Fel lösenord");
+                        PrintOut(savingsAccount, userid, paymentAccount);
+                    }
+                    else
+                    {
+                        if (takeMoney > savingsAccount[userid])
+                        {
+                            Console.WriteLine("Du kan inte ta ut så mycket pengar");
+                            PrintOut(savingsAccount, userid, paymentAccount);
+                        }
+                        if (takeMoney < 0)
+                        {
+                            Console.WriteLine("Ditt tal kan inte va mindre än noll");
+                            PrintOut(savingsAccount, userid, paymentAccount);
+                        }
+                        else
+                        {
+                            savingsAccount[userid] -= takeMoney;
+                            Console.WriteLine("Du tog ut " + takeMoney + "kr");
+                            Console.WriteLine("Pengar på sparkontot: " + savingsAccount[userid] + "kr");
+                        }
+                    }
                     break;
 
                 case 2:
