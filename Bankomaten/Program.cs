@@ -155,7 +155,17 @@
                                 Console.WriteLine("Du kan inte ta ut så mycket pengar");
                                 Transfer(savingsAccount, userid, paymentAccount);
                             }
+                            else
+                            {
+                                paymentAccount[userid] -= transfer;
+                                savingsAccount[userid] += transfer;
+                                transfer = 0;
+                                Console.WriteLine("Lönekonto: " + paymentAccount[userid] + "kr");
+                                Console.WriteLine("Sparkonto: " + savingsAccount[userid] + "kr");
+                            }
+                            break;
                     }
+                    break;
         }
 
     }
