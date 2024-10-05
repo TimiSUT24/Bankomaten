@@ -245,14 +245,49 @@ namespace Bankomaten
                         {
                             savingsAccount[userid] -= takeMoney;
                             Console.WriteLine("Du tog ut " + takeMoney + "kr");
+                            takeMoney = 0; 
                             Console.WriteLine("Pengar på sparkontot: " + savingsAccount[userid] + "kr");
                         }
                     }
                     break;
 
                 case 2:
-
+                    Console.WriteLine("Hur mycket pengar vill du ta ut? ");
+                    takeMoney = double.Parse(Console.ReadLine());
+                    Console.WriteLine("Bekräfta din transaktion med din pinkod");
+                    pinCode = int.Parse(Console.ReadLine());
+                    if (pinCode != passwords[userid])
+                    {
+                        Console.WriteLine("Fel lösenord");
+                        PrintOut(savingsAccount, userid, paymentAccount);
+                    }
+                    else
+                    {
+                        if (takeMoney > paymentAccount[userid])
+                        {
+                            Console.WriteLine("Du kan inte ta ut så mycket pengar");
+                            PrintOut(savingsAccount, userid, paymentAccount);
+                        }
+                        if (takeMoney < 0)
+                        {
+                            Console.WriteLine("Ditt tal kan inte va mindre än noll");
+                            PrintOut(savingsAccount, userid, paymentAccount);
+                        }
+                        else
+                        {
+                            paymentAccount[userid] -= takeMoney;
+                            Console.WriteLine("Du tog ut " + takeMoney + "kr");
+                            takeMoney = 0;
+                            Console.WriteLine("Pengar på lönekonto: " + paymentAccount[userid] + "kr");
+                        }
+                    }
                     break;
+            }
+            Console.WriteLine("\nKlicka Enter för att komma till Menyn");
+            ConsoleKeyInfo enter = Console.ReadKey();
+            if (enter.Key == ConsoleKey.Enter)
+            {
+                LoggedIn(users, userid);
             }
         }
     }
