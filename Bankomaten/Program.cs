@@ -88,7 +88,7 @@
                         Accounts(savingsAccount, userid, paymentAccount);
                         break;
                     case 2:
-                        
+                        Transfer(savingsAccount, userid, paymentAccount);
                         break;
                     case 3:
                         
@@ -199,6 +199,12 @@
                     }
                     break;
             }
-
+            Console.WriteLine("\nKlicka Enter för att komma till Menyn");
+            ConsoleKeyInfo enter = Console.ReadKey();
+            if (enter.Key == ConsoleKey.Enter)
+            {
+                LoggedIn(users, userid);
+            }
+        }
     }
 }
