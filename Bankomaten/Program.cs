@@ -166,7 +166,39 @@
                             break;
                     }
                     break;
-        }
+
+                case 2:
+                    Console.WriteLine("Välj konto att överföra till" +
+                                      "\n1: Lönekonto");
+                    chooseTransfer = int.Parse(Console.ReadLine());
+                    switch (chooseTransfer)
+                    {
+                        case 1:
+                            Console.WriteLine("Hur mycket vill du överföra");
+                            transfer = double.Parse(Console.ReadLine());
+                            if (transfer < 0)
+                            {
+                                Console.WriteLine("Ditt tal kan inte vara mindre än noll");
+                                Transfer(savingsAccount, userid, paymentAccount);
+                            }
+                            if (transfer > savingsAccount[userid])
+                            {
+                                Console.WriteLine("Du kan inte ta ut så mycket pengar");
+                                Transfer(savingsAccount, userid, paymentAccount);
+                            }
+                            else
+                            {
+                                savingsAccount[userid] -= transfer;
+                                paymentAccount[userid] += transfer;
+                                transfer = 0;
+                                Console.WriteLine("Sparkonto: " + savingsAccount[userid] + "kr");
+                                Console.WriteLine("Lönekonto: " + paymentAccount[userid] + "kr");
+
+                            }
+                            break;
+                    }
+                    break;
+            }
 
     }
 }
