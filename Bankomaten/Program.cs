@@ -206,5 +206,10 @@
                 LoggedIn(users, userid);
             }
         }
+
+        static void PrintOut(double[] savingsAccount, int userid, double[] paymentAccount)
+        {
+
+        }
     }
 }
