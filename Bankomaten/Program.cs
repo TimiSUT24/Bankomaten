@@ -209,7 +209,21 @@
 
         static void PrintOut(double[] savingsAccount, int userid, double[] paymentAccount)
         {
+            Console.WriteLine("Vilket konto vill du ta ut ifrån? " +
+                              "\n1: Sparkonto" +
+                              "\n2: Lönekonto");
+            int chooseAccount = int.Parse(Console.ReadLine());
 
+            switch (chooseAccount)
+            {
+                case 1:
+
+                    break;
+
+                case 2:
+
+                    break;
+            }
         }
     }
 }
