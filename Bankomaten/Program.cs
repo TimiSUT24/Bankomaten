@@ -1,28 +1,29 @@
-﻿using System.Net.NetworkInformation;
+﻿
 
 namespace Bankomaten
 {
     internal class Program
     {
         static string[] users = ["Tim", "Adam", "Mos", "Sam", "Kim"];
-        static int[] passwords = [1, 2, 3, 4, 5];
+        static int[] passwords = [145, 223, 345, 412, 524];
         static int userid;
-        static decimal[] savingsAccount = [5, 10, 15, 20, 25];
-        static decimal[] paymentAccount = [10, 15, 20, 25, 30];
+        static decimal[] savingsAccount = [500, 1000, 2500, 4204, 6000];
+        static decimal[] paymentAccount = [1530, 250, 3536, 2500, 3302];
 
         static void Main(string[] args)
         {
             StartMenu();
         }
 
+        //Method for user startmenu 
         static void StartMenu()
         {
             Console.WriteLine("Välkommen till bankomaten");
             Console.WriteLine("1: Logga in" +
                               "\n2: Exit");
 
-            int menu;
-            string startMenu = Console.ReadLine();         
+                int menu;
+                string startMenu = Console.ReadLine();         
                 if (int.TryParse(startMenu, out menu))
                 {
                     switch (menu)
@@ -44,12 +45,13 @@ namespace Bankomaten
                 }
                                              
         }
+        //Login method thats checks if user exists and uses parameters in the method so we can transfer userid to other methods. 
         static void Login(string[] users, int[] passwords, int userid)
         {
             int guesses = 0;
             bool loggedIn = false;
             try
-            {
+            {   //While loop will run while guesses is lower than 3 and is not loggedin. 
                 while (guesses < 3 && !loggedIn)
                 {
                     Console.WriteLine("Enter Your username");
@@ -57,6 +59,7 @@ namespace Bankomaten
                     Console.WriteLine("Enter Your password");
                     int password = int.Parse(Console.ReadLine());
 
+                    //Loops through users and if user and password have same userid Example 0-0 it will login user (0). 
                     for (userid = 0; userid < users.Length; userid++)
                     {
                         if (username == users[userid] && password == passwords[userid])
@@ -68,7 +71,7 @@ namespace Bankomaten
                             LoggedIn(users, userid);
                         }
                     }
-
+                    //If statement that checks if the user not logged in guesses will increase.
                     if (!loggedIn)
                     {
                         guesses++;
@@ -90,7 +93,7 @@ namespace Bankomaten
             }           
         }
 
-
+        //(LoggedIn method) When user has logged in prints a menu and can choose from 1-4 in a switch case. 
         static void LoggedIn(string[] users, int userid)
         {
             Console.WriteLine("\nDu är inloggad som " + users[userid] +
@@ -103,6 +106,7 @@ namespace Bankomaten
 
             int loggedInMenu;
             string userChoose = Console.ReadLine();
+            //Using TryParse if user chooses a number outside the switch case and goes back to the menu. 
             if (int.TryParse(userChoose, out loggedInMenu))
             {
                 switch (loggedInMenu)
@@ -129,7 +133,8 @@ namespace Bankomaten
                         break;
                 }
             }
-            else
+            //Goes back to menu if user pressed any other keys.
+            else 
             {
                 Console.WriteLine("Ogiltigt val");              
                 LoggedIn(users, userid);
@@ -137,11 +142,13 @@ namespace Bankomaten
 
         }
 
+        //User can see the amount of money in the accounts 
         static void Accounts(decimal[] savingsAccount, int userid, decimal[] paymentAccount)
         {
             Console.WriteLine("\nLönekonto: " + paymentAccount[userid] + "kr");
             Console.WriteLine("Sparkonto: " + savingsAccount[userid] + "kr");
 
+            //User presses enter to return to menu 
             Console.WriteLine("\nKlicka Enter för att komma till Menyn");
             ConsoleKeyInfo enter = Console.ReadKey();
             if (enter.Key == ConsoleKey.Enter)
@@ -154,9 +161,10 @@ namespace Bankomaten
                 Accounts(savingsAccount, userid, paymentAccount);
             }
         }
-
+        //Transfer method where the user can transfer money through other accounts. 
         static void Transfer(decimal[] savingsAccount, int userid, decimal[] paymentAccount)
-        {
+        {   
+            //User chooses which account to take money from. 
             Console.WriteLine("\nVälj konto att ta pengar från" +
                               "\n1: Lönekonto" +
                               "\n2: Sparkonto");
@@ -166,7 +174,7 @@ namespace Bankomaten
                 int chooseAccount = int.Parse(Console.ReadLine());
 
                 switch (chooseAccount)
-                {
+                {   //User chooses what account to transfer to.
                     case 1:
                         Console.WriteLine("Välj konto att överföra till" +
                                           "\n1: Sparkonto");
@@ -174,7 +182,7 @@ namespace Bankomaten
 
                         switch (chooseTransfer)
                         {
-                            case 1:
+                            case 1://User cant transfer less than 0 or 0 and if bigger than the account.
                                 Console.WriteLine("Hur mycket vill du överföra");
                                 transfer = decimal.Parse(Console.ReadLine());
                                 if (transfer < 0 || transfer == 0)
@@ -188,7 +196,7 @@ namespace Bankomaten
                                     Transfer(savingsAccount, userid, paymentAccount);
                                 }
                                 else
-                                {
+                                {   //PaymentAccount goes to transfer and transfer goes to savingsAccount and resets transfer.                                   
                                     paymentAccount[userid] -= transfer;
                                     savingsAccount[userid] += transfer;
                                     transfer = 0;
@@ -199,7 +207,7 @@ namespace Bankomaten
                         }
                         break;
 
-                    case 2:
+                    case 2: //Same goes for this code aswell but u take and transfer from another account. 
                         Console.WriteLine("Välj konto att överföra till" +
                                           "\n1: Lönekonto");
                         chooseTransfer = int.Parse(Console.ReadLine());
@@ -230,7 +238,7 @@ namespace Bankomaten
                                 break;
                         }
                         break;
-                }
+                }//Press enter to go to menu. 
                 Console.WriteLine("\nKlicka Enter för att komma till Menyn");
                 ConsoleKeyInfo enter = Console.ReadKey();
                 if (enter.Key == ConsoleKey.Enter)
@@ -243,14 +251,14 @@ namespace Bankomaten
                     Transfer(savingsAccount, userid, paymentAccount);
                 }
             }
-            catch
+            catch//Also a try catch if user inputs wrong.
             {
                 Console.WriteLine("Fel input");
                 Transfer(savingsAccount, userid, paymentAccount);
             }
 
         }
-
+        //PrintOut method so user can take out money from accounts. 
         static void PrintOut(decimal[] savingsAccount, int userid, decimal[] paymentAccount)
         {
             Console.WriteLine("\nVilket konto vill du ta ut ifrån? " +
@@ -262,7 +270,7 @@ namespace Bankomaten
 
                 switch (chooseAccount)
                 {
-                    case 1:
+                    case 1://User chooses how much money and types pincode if wrong no money will be taken out. 
                         Console.WriteLine("Hur mycket pengar vill du ta ut? ");
                         decimal takeMoney = decimal.Parse(Console.ReadLine());
                         Console.WriteLine("Bekräfta din transaktion med din pinkod");
@@ -274,7 +282,7 @@ namespace Bankomaten
                             PrintOut(savingsAccount, userid, paymentAccount);
                         }
                         else
-                        {
+                        {   //If bigger than account or less than 0 and equals to 0. User cant take out money. 
                             if (takeMoney > savingsAccount[userid])
                             {
                                 Console.WriteLine("Du kan inte ta ut så mycket pengar");
@@ -286,16 +294,16 @@ namespace Bankomaten
                                 LoggedIn(users, userid);
                             }
                             else
-                            {
+                            {   //Money gets printed out from the account if the other conditions is valid. 
                                 savingsAccount[userid] -= takeMoney;
                                 Console.WriteLine("Du tog ut " + takeMoney + "kr");
                                 takeMoney = 0;
-                                Console.WriteLine("Pengar på sparkontot: " + savingsAccount[userid] + "kr");
+                                Console.WriteLine("Pengar på Sparkontot: " + savingsAccount[userid] + "kr");
                             }
                         }
                         break;
 
-                    case 2:
+                    case 2://Here will be the same but just another account. 
                         Console.WriteLine("Hur mycket pengar vill du ta ut? ");
                         takeMoney = decimal.Parse(Console.ReadLine());
                         Console.WriteLine("Bekräfta din transaktion med din pinkod");
@@ -322,11 +330,11 @@ namespace Bankomaten
                                 paymentAccount[userid] -= takeMoney;
                                 Console.WriteLine("Du tog ut " + takeMoney + "kr");
                                 takeMoney = 0;
-                                Console.WriteLine("Pengar på lönekonto: " + paymentAccount[userid] + "kr");
+                                Console.WriteLine("Pengar på Lönekonto: " + paymentAccount[userid] + "kr");
                             }
                         }
                         break;
-                }
+                }//Press enter to go to menu 
                 Console.WriteLine("\nKlicka Enter för att komma till Menyn");
                 ConsoleKeyInfo enter = Console.ReadKey();
                 if (enter.Key == ConsoleKey.Enter)
@@ -340,7 +348,7 @@ namespace Bankomaten
                 }
             }
             catch
-            {
+            {   //Here is also a try catch if wrong input. 
                 Console.WriteLine("Fel input");
                 PrintOut(savingsAccount, userid, paymentAccount);
             }
