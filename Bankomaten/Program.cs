@@ -22,18 +22,29 @@ namespace Bankomaten
             Console.WriteLine("1: Logga in" +
                               "\n2: Exit");
 
-            int startMenu = int.Parse(Console.ReadLine());
-
-            switch (startMenu)
+            int menu;
+            string startMenu = Console.ReadLine();
+            if(int.TryParse(startMenu, out menu))
             {
-                case 1:
-                    Login(users, passwords, userid);
-                    break;
-                case 2:
-                    Console.WriteLine("Stänger bankomaten...");
-                    break;
+                switch (menu)
+                {
+                    case 1:
+                        Login(users, passwords, userid);
+                        break;
+                    case 2:
+                        Console.WriteLine("Stänger bankomaten...");
+                        break;
+                    default:                 
+                        StartMenu();
+                        break;
 
+                }
             }
+            else
+            {
+                StartMenu();
+            }
+            
         }
         static void Login(string[] users, int[] passwords, int userid)
         {
@@ -42,35 +53,44 @@ namespace Bankomaten
 
             while (guesses < 3 && !loggedIn)
             {
-                Console.WriteLine("Enter Your username");
-                string username = Console.ReadLine();
-                Console.WriteLine("Enter Your password");
-                int password = int.Parse(Console.ReadLine());
-
-                for (userid = 0; userid < users.Length; userid++)
+                try
                 {
-                    if (username == users[userid] && password == passwords[userid])
+                    Console.WriteLine("Enter Your username");
+                    string username = Console.ReadLine();
+                    Console.WriteLine("Enter Your password");
+                    int password = int.Parse(Console.ReadLine());
+
+                    for (userid = 0; userid < users.Length; userid++)
                     {
+                        if (username == users[userid] && password == passwords[userid])
+                        {
 
-                        Console.WriteLine("Du lyckades logga in " + users[userid]);
-                        loggedIn = true;
-                        LoggedIn(users, userid);
+                            Console.WriteLine("Du lyckades logga in " + users[userid]);
+                            loggedIn = true;                            
+                            LoggedIn(users, userid);
 
 
+                        }
+                    }
+
+                    if (!loggedIn)
+                    {
+                        guesses++;
+                        Console.WriteLine("Fel lösenord eller användarnamn");
+                    }
+
+                    if (guesses == 3)
+                    {
+                        Console.WriteLine("Stänger bankomaten...");
+                        break;
                     }
                 }
-
-                if (!loggedIn)
+                catch
                 {
-                    guesses++;
-                    Console.WriteLine("fel");
+                    Console.WriteLine("Fel input endast siffror!\n");                 
+                    StartMenu();
                 }
-
-                if (guesses == 3)
-                {
-                    Console.WriteLine("Stänger bankomaten");
-                    break;
-                }
+                
             }
         }
 
@@ -91,7 +111,7 @@ namespace Bankomaten
             {
                 switch (loggedInMenu)
                 {
-                    case 1:                     
+                    case 1:
                         Accounts(savingsAccount, userid, paymentAccount);
                         break;
                     case 2:
@@ -103,8 +123,7 @@ namespace Bankomaten
                     case 4:
                         StartMenu();
                         break;
-                    default:
-                        Console.WriteLine("Fel siffra");
+                    default:                        
                         LoggedIn(users, userid);
                         break;
                 }
@@ -128,6 +147,11 @@ namespace Bankomaten
             {
                 LoggedIn(users, userid);
             }
+            else
+            {                
+                Accounts(savingsAccount, userid, paymentAccount);
+            }
+
 
         }
 
@@ -153,10 +177,10 @@ namespace Bankomaten
                             case 1:
                                 Console.WriteLine("Hur mycket vill du överföra");
                                 transfer = double.Parse(Console.ReadLine());
-                                if (transfer < 0)
+                                if (transfer < 0 || transfer == 0)
                                 {
-                                    Console.WriteLine("Ditt tal kan inte vara mindre än noll");
-                                    Transfer(savingsAccount, userid, paymentAccount);
+                                    Console.WriteLine("Ditt tal kan inte va 0 eller mindre");
+                                    LoggedIn(users, userid);
                                 }
                                 if (transfer > paymentAccount[userid])
                                 {
@@ -184,10 +208,10 @@ namespace Bankomaten
                             case 1:
                                 Console.WriteLine("Hur mycket vill du överföra");
                                 transfer = double.Parse(Console.ReadLine());
-                                if (transfer < 0)
+                                if (transfer < 0 || transfer == 0)
                                 {
-                                    Console.WriteLine("Ditt tal kan inte vara mindre än noll");
-                                    Transfer(savingsAccount, userid, paymentAccount);
+                                    Console.WriteLine("Ditt tal kan inte va 0 eller mindre");
+                                    LoggedIn(users, userid);
                                 }
                                 if (transfer > savingsAccount[userid])
                                 {
@@ -213,10 +237,14 @@ namespace Bankomaten
                 {
                     LoggedIn(users, userid);
                 }
+                else
+                {                  
+                    Transfer(savingsAccount, userid, paymentAccount);
+                }
             }
             catch
             {
-                Console.WriteLine("fel input");
+                Console.WriteLine("Fel input");
                 Transfer(savingsAccount, userid, paymentAccount);
             }
 
@@ -251,10 +279,10 @@ namespace Bankomaten
                                 Console.WriteLine("Du kan inte ta ut så mycket pengar");
                                 PrintOut(savingsAccount, userid, paymentAccount);
                             }
-                            if (takeMoney < 0)
+                            if (takeMoney < 0 || takeMoney == 0)
                             {
-                                Console.WriteLine("Ditt tal kan inte va mindre än noll");
-                                PrintOut(savingsAccount, userid, paymentAccount);
+                                Console.WriteLine("Ditt tal kan inte va 0 eller mindre");
+                                LoggedIn(users, userid);
                             }
                             else
                             {
@@ -283,10 +311,10 @@ namespace Bankomaten
                                 Console.WriteLine("Du kan inte ta ut så mycket pengar");
                                 PrintOut(savingsAccount, userid, paymentAccount);
                             }
-                            if (takeMoney < 0)
+                            if (takeMoney < 0 || takeMoney == 0)
                             {
-                                Console.WriteLine("Ditt tal kan inte va mindre än noll");
-                                PrintOut(savingsAccount, userid, paymentAccount);
+                                Console.WriteLine("Ditt tal kan inte va 0 eller mindre");
+                                LoggedIn(users, userid);
                             }
                             else
                             {
@@ -304,13 +332,17 @@ namespace Bankomaten
                 {
                     LoggedIn(users, userid);
                 }
+                else
+                {                   
+                    PrintOut(savingsAccount, userid, paymentAccount);
+                }
             }
             catch
             {
-                Console.WriteLine("fel");
+                Console.WriteLine("Fel input");
                 PrintOut(savingsAccount, userid, paymentAccount);
             }
-        
+
         }
 
     }
