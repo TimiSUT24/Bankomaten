@@ -10,46 +10,12 @@ namespace Bankomaten
         static double[] savingsAccount = [5, 10, 15, 20, 25];
         static double[] paymentAccount = [10, 15, 20, 25, 30];
 
-        static void Login(string[] users, int[] passwords, int userid)
+        static void Main(string[] args)
         {
-            int guesses = 0;
-            bool loggedIn = false;
-
-            while (guesses < 3 && !loggedIn)
-            {
-                Console.WriteLine("Enter Your username");
-                string username = Console.ReadLine();
-                Console.WriteLine("Enter Your password");
-                int password = int.Parse(Console.ReadLine());
-
-                for (userid = 0; userid < users.Length; userid++)
-                {
-                    if (username == users[userid] && password == passwords[userid])
-                    {
-                        
-                        Console.WriteLine("Du lyckades logga in " + users[userid]);
-                        loggedIn = true;
-                        LoggedIn(users, userid);
-                        
-
-                    }
-                }
-
-                if (!loggedIn)
-                {
-                    guesses++;
-                    Console.WriteLine("fel");
-                }
-
-                if (guesses == 3)
-                {
-                    Console.WriteLine("Stänger bankomaten");
-                    break;
-                }
-            }
+            StartMenu();
         }
 
-        static void Main(string[] args)
+        static void StartMenu()
         {
             Console.WriteLine("Välkommen till bankomaten");
 
@@ -69,6 +35,45 @@ namespace Bankomaten
 
             }
         }
+        static void Login(string[] users, int[] passwords, int userid)
+        {
+            int guesses = 0;
+            bool loggedIn = false;
+
+            while (guesses < 3 && !loggedIn)
+            {
+                Console.WriteLine("Enter Your username");
+                string username = Console.ReadLine();
+                Console.WriteLine("Enter Your password");
+                int password = int.Parse(Console.ReadLine());
+
+                for (userid = 0; userid < users.Length; userid++)
+                {
+                    if (username == users[userid] && password == passwords[userid])
+                    {
+
+                        Console.WriteLine("Du lyckades logga in " + users[userid]);
+                        loggedIn = true;
+                        LoggedIn(users, userid);
+
+
+                    }
+                }
+
+                if (!loggedIn)
+                {
+                    guesses++;
+                    Console.WriteLine("fel");
+                }
+
+                if (guesses == 3)
+                {
+                    Console.WriteLine("Stänger bankomaten");
+                    break;
+                }
+            }
+        }
+
 
         static void LoggedIn(string[] users, int userid)
         {
@@ -82,21 +87,21 @@ namespace Bankomaten
 
             int loggedInMenu;
             string userChoose = Console.ReadLine();
-            if(int.TryParse(userChoose, out loggedInMenu))
+            if (int.TryParse(userChoose, out loggedInMenu))
             {
                 switch (loggedInMenu)
                 {
-                    case 1:
+                    case 1:                     
                         Accounts(savingsAccount, userid, paymentAccount);
                         break;
                     case 2:
                         Transfer(savingsAccount, userid, paymentAccount);
                         break;
                     case 3:
-                        
+                        PrintOut(savingsAccount, userid, paymentAccount);
                         break;
                     case 4:
-                        Login(users, passwords, userid);
+                        StartMenu();
                         break;
                     default:
                         Console.WriteLine("Fel siffra");
@@ -131,82 +136,90 @@ namespace Bankomaten
             Console.WriteLine("Välj konto att ta pengar från" +
                               "\n1: Lönekonto" +
                               "\n2: Sparkonto");
-
-            double transfer;
-            int chooseAccount = int.Parse(Console.ReadLine());
-
-            switch (chooseAccount)
+            try
             {
-                case 1:
-                    Console.WriteLine("Välj konto att överföra till" +
-                                      "\n1: Sparkonto");
-                    int chooseTransfer = int.Parse(Console.ReadLine());
+                double transfer;
+                int chooseAccount = int.Parse(Console.ReadLine());
 
-                    switch (chooseTransfer)
-                    {
-                        case 1:
-                            Console.WriteLine("Hur mycket vill du överföra");
-                            transfer = double.Parse(Console.ReadLine());
-                            if (transfer < 0)
-                            {
-                                Console.WriteLine("Ditt tal kan inte vara mindre än noll");
-                                Transfer(savingsAccount, userid, paymentAccount);
-                            }
-                            if (transfer > paymentAccount[userid])
-                            {
-                                Console.WriteLine("Du kan inte ta ut så mycket pengar");
-                                Transfer(savingsAccount, userid, paymentAccount);
-                            }
-                            else
-                            {
-                                paymentAccount[userid] -= transfer;
-                                savingsAccount[userid] += transfer;
-                                transfer = 0;
-                                Console.WriteLine("Lönekonto: " + paymentAccount[userid] + "kr");
-                                Console.WriteLine("Sparkonto: " + savingsAccount[userid] + "kr");
-                            }
-                            break;
-                    }
-                    break;
+                switch (chooseAccount)
+                {
+                    case 1:
+                        Console.WriteLine("Välj konto att överföra till" +
+                                          "\n1: Sparkonto");
+                        int chooseTransfer = int.Parse(Console.ReadLine());
 
-                case 2:
-                    Console.WriteLine("Välj konto att överföra till" +
-                                      "\n1: Lönekonto");
-                    chooseTransfer = int.Parse(Console.ReadLine());
-                    switch (chooseTransfer)
-                    {
-                        case 1:
-                            Console.WriteLine("Hur mycket vill du överföra");
-                            transfer = double.Parse(Console.ReadLine());
-                            if (transfer < 0)
-                            {
-                                Console.WriteLine("Ditt tal kan inte vara mindre än noll");
-                                Transfer(savingsAccount, userid, paymentAccount);
-                            }
-                            if (transfer > savingsAccount[userid])
-                            {
-                                Console.WriteLine("Du kan inte ta ut så mycket pengar");
-                                Transfer(savingsAccount, userid, paymentAccount);
-                            }
-                            else
-                            {
-                                savingsAccount[userid] -= transfer;
-                                paymentAccount[userid] += transfer;
-                                transfer = 0;
-                                Console.WriteLine("Sparkonto: " + savingsAccount[userid] + "kr");
-                                Console.WriteLine("Lönekonto: " + paymentAccount[userid] + "kr");
+                        switch (chooseTransfer)
+                        {
+                            case 1:
+                                Console.WriteLine("Hur mycket vill du överföra");
+                                transfer = double.Parse(Console.ReadLine());
+                                if (transfer < 0)
+                                {
+                                    Console.WriteLine("Ditt tal kan inte vara mindre än noll");
+                                    Transfer(savingsAccount, userid, paymentAccount);
+                                }
+                                if (transfer > paymentAccount[userid])
+                                {
+                                    Console.WriteLine("Du kan inte ta ut så mycket pengar");
+                                    Transfer(savingsAccount, userid, paymentAccount);
+                                }
+                                else
+                                {
+                                    paymentAccount[userid] -= transfer;
+                                    savingsAccount[userid] += transfer;
+                                    transfer = 0;
+                                    Console.WriteLine("Lönekonto: " + paymentAccount[userid] + "kr");
+                                    Console.WriteLine("Sparkonto: " + savingsAccount[userid] + "kr");
+                                }
+                                break;
+                        }
+                        break;
 
-                            }
-                            break;
-                    }
-                    break;
+                    case 2:
+                        Console.WriteLine("Välj konto att överföra till" +
+                                          "\n1: Lönekonto");
+                        chooseTransfer = int.Parse(Console.ReadLine());
+                        switch (chooseTransfer)
+                        {
+                            case 1:
+                                Console.WriteLine("Hur mycket vill du överföra");
+                                transfer = double.Parse(Console.ReadLine());
+                                if (transfer < 0)
+                                {
+                                    Console.WriteLine("Ditt tal kan inte vara mindre än noll");
+                                    Transfer(savingsAccount, userid, paymentAccount);
+                                }
+                                if (transfer > savingsAccount[userid])
+                                {
+                                    Console.WriteLine("Du kan inte ta ut så mycket pengar");
+                                    Transfer(savingsAccount, userid, paymentAccount);
+                                }
+                                else
+                                {
+                                    savingsAccount[userid] -= transfer;
+                                    paymentAccount[userid] += transfer;
+                                    transfer = 0;
+                                    Console.WriteLine("Sparkonto: " + savingsAccount[userid] + "kr");
+                                    Console.WriteLine("Lönekonto: " + paymentAccount[userid] + "kr");
+
+                                }
+                                break;
+                        }
+                        break;
+                }
+                Console.WriteLine("\nKlicka Enter för att komma till Menyn");
+                ConsoleKeyInfo enter = Console.ReadKey();
+                if (enter.Key == ConsoleKey.Enter)
+                {
+                    LoggedIn(users, userid);
+                }
             }
-            Console.WriteLine("\nKlicka Enter för att komma till Menyn");
-            ConsoleKeyInfo enter = Console.ReadKey();
-            if (enter.Key == ConsoleKey.Enter)
+            catch
             {
-                LoggedIn(users, userid);
+                Console.WriteLine("fel input");
+                Transfer(savingsAccount, userid, paymentAccount);
             }
+
         }
 
         static void PrintOut(double[] savingsAccount, int userid, double[] paymentAccount)
@@ -214,81 +227,91 @@ namespace Bankomaten
             Console.WriteLine("Vilket konto vill du ta ut ifrån? " +
                               "\n1: Sparkonto" +
                               "\n2: Lönekonto");
-            int chooseAccount = int.Parse(Console.ReadLine());
-
-            switch (chooseAccount)
+            try
             {
-                case 1:
-                    Console.WriteLine("Hur mycket pengar vill du ta ut? ");
-                    double takeMoney = double.Parse(Console.ReadLine());
-                    Console.WriteLine("Bekräfta din transaktion med din pinkod");
-                    int pinCode = int.Parse(Console.ReadLine());
+                int chooseAccount = int.Parse(Console.ReadLine());
 
-                    if (pinCode != passwords[userid])
-                    {
-                        Console.WriteLine("Fel lösenord");
-                        PrintOut(savingsAccount, userid, paymentAccount);
-                    }
-                    else
-                    {
-                        if (takeMoney > savingsAccount[userid])
+                switch (chooseAccount)
+                {
+                    case 1:
+                        Console.WriteLine("Hur mycket pengar vill du ta ut? ");
+                        double takeMoney = double.Parse(Console.ReadLine());
+                        Console.WriteLine("Bekräfta din transaktion med din pinkod");
+                        int pinCode = int.Parse(Console.ReadLine());
+
+                        if (pinCode != passwords[userid])
                         {
-                            Console.WriteLine("Du kan inte ta ut så mycket pengar");
-                            PrintOut(savingsAccount, userid, paymentAccount);
-                        }
-                        if (takeMoney < 0)
-                        {
-                            Console.WriteLine("Ditt tal kan inte va mindre än noll");
+                            Console.WriteLine("Fel lösenord");
                             PrintOut(savingsAccount, userid, paymentAccount);
                         }
                         else
                         {
-                            savingsAccount[userid] -= takeMoney;
-                            Console.WriteLine("Du tog ut " + takeMoney + "kr");
-                            takeMoney = 0; 
-                            Console.WriteLine("Pengar på sparkontot: " + savingsAccount[userid] + "kr");
+                            if (takeMoney > savingsAccount[userid])
+                            {
+                                Console.WriteLine("Du kan inte ta ut så mycket pengar");
+                                PrintOut(savingsAccount, userid, paymentAccount);
+                            }
+                            if (takeMoney < 0)
+                            {
+                                Console.WriteLine("Ditt tal kan inte va mindre än noll");
+                                PrintOut(savingsAccount, userid, paymentAccount);
+                            }
+                            else
+                            {
+                                savingsAccount[userid] -= takeMoney;
+                                Console.WriteLine("Du tog ut " + takeMoney + "kr");
+                                takeMoney = 0;
+                                Console.WriteLine("Pengar på sparkontot: " + savingsAccount[userid] + "kr");
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case 2:
-                    Console.WriteLine("Hur mycket pengar vill du ta ut? ");
-                    takeMoney = double.Parse(Console.ReadLine());
-                    Console.WriteLine("Bekräfta din transaktion med din pinkod");
-                    pinCode = int.Parse(Console.ReadLine());
-                    if (pinCode != passwords[userid])
-                    {
-                        Console.WriteLine("Fel lösenord");
-                        PrintOut(savingsAccount, userid, paymentAccount);
-                    }
-                    else
-                    {
-                        if (takeMoney > paymentAccount[userid])
+                    case 2:
+                        Console.WriteLine("Hur mycket pengar vill du ta ut? ");
+                        takeMoney = double.Parse(Console.ReadLine());
+                        Console.WriteLine("Bekräfta din transaktion med din pinkod");
+                        pinCode = int.Parse(Console.ReadLine());
+                        if (pinCode != passwords[userid])
                         {
-                            Console.WriteLine("Du kan inte ta ut så mycket pengar");
-                            PrintOut(savingsAccount, userid, paymentAccount);
-                        }
-                        if (takeMoney < 0)
-                        {
-                            Console.WriteLine("Ditt tal kan inte va mindre än noll");
+                            Console.WriteLine("Fel lösenord");
                             PrintOut(savingsAccount, userid, paymentAccount);
                         }
                         else
                         {
-                            paymentAccount[userid] -= takeMoney;
-                            Console.WriteLine("Du tog ut " + takeMoney + "kr");
-                            takeMoney = 0;
-                            Console.WriteLine("Pengar på lönekonto: " + paymentAccount[userid] + "kr");
+                            if (takeMoney > paymentAccount[userid])
+                            {
+                                Console.WriteLine("Du kan inte ta ut så mycket pengar");
+                                PrintOut(savingsAccount, userid, paymentAccount);
+                            }
+                            if (takeMoney < 0)
+                            {
+                                Console.WriteLine("Ditt tal kan inte va mindre än noll");
+                                PrintOut(savingsAccount, userid, paymentAccount);
+                            }
+                            else
+                            {
+                                paymentAccount[userid] -= takeMoney;
+                                Console.WriteLine("Du tog ut " + takeMoney + "kr");
+                                takeMoney = 0;
+                                Console.WriteLine("Pengar på lönekonto: " + paymentAccount[userid] + "kr");
+                            }
                         }
-                    }
-                    break;
+                        break;
+                }
+                Console.WriteLine("\nKlicka Enter för att komma till Menyn");
+                ConsoleKeyInfo enter = Console.ReadKey();
+                if (enter.Key == ConsoleKey.Enter)
+                {
+                    LoggedIn(users, userid);
+                }
             }
-            Console.WriteLine("\nKlicka Enter för att komma till Menyn");
-            ConsoleKeyInfo enter = Console.ReadKey();
-            if (enter.Key == ConsoleKey.Enter)
+            catch
             {
-                LoggedIn(users, userid);
+                Console.WriteLine("fel");
+                PrintOut(savingsAccount, userid, paymentAccount);
             }
+        
         }
+
     }
 }
