@@ -7,8 +7,8 @@ namespace Bankomaten
         static string[] users = ["Tim", "Adam", "Mos", "Sam", "Kim"];
         static int[] passwords = [1, 2, 3, 4, 5];
         static int userid;
-        static double[] savingsAccount = [5, 10, 15, 20, 25];
-        static double[] paymentAccount = [10, 15, 20, 25, 30];
+        static decimal[] savingsAccount = [5, 10, 15, 20, 25];
+        static decimal[] paymentAccount = [10, 15, 20, 25, 30];
 
         static void Main(string[] args)
         {
@@ -18,42 +18,39 @@ namespace Bankomaten
         static void StartMenu()
         {
             Console.WriteLine("Välkommen till bankomaten");
-
             Console.WriteLine("1: Logga in" +
                               "\n2: Exit");
 
             int menu;
-            string startMenu = Console.ReadLine();
-            if(int.TryParse(startMenu, out menu))
-            {
-                switch (menu)
+            string startMenu = Console.ReadLine();         
+                if (int.TryParse(startMenu, out menu))
                 {
-                    case 1:
-                        Login(users, passwords, userid);
-                        break;
-                    case 2:
-                        Console.WriteLine("Stänger bankomaten...");
-                        break;
-                    default:                 
-                        StartMenu();
-                        break;
-
+                    switch (menu)
+                    {
+                        case 1:
+                            Login(users, passwords, userid);
+                            break;
+                        case 2:
+                            Console.WriteLine("Stänger bankomaten...");
+                            break;                          
+                        default:
+                            StartMenu();
+                            break;
+                    }
                 }
-            }
-            else
-            {
-                StartMenu();
-            }
-            
+                else
+                {
+                    StartMenu();
+                }
+                                             
         }
         static void Login(string[] users, int[] passwords, int userid)
         {
             int guesses = 0;
             bool loggedIn = false;
-
-            while (guesses < 3 && !loggedIn)
+            try
             {
-                try
+                while (guesses < 3 && !loggedIn)
                 {
                     Console.WriteLine("Enter Your username");
                     string username = Console.ReadLine();
@@ -66,10 +63,9 @@ namespace Bankomaten
                         {
 
                             Console.WriteLine("Du lyckades logga in " + users[userid]);
-                            loggedIn = true;                            
+                            loggedIn = true;
+                            Console.Clear();
                             LoggedIn(users, userid);
-
-
                         }
                     }
 
@@ -85,13 +81,13 @@ namespace Bankomaten
                         break;
                     }
                 }
-                catch
-                {
-                    Console.WriteLine("Fel input endast siffror!\n");                 
-                    StartMenu();
-                }
-                
             }
+            catch
+            {
+                Console.WriteLine("Fel input endast siffror!\n");
+                Console.Clear();
+                StartMenu();
+            }           
         }
 
 
@@ -112,57 +108,61 @@ namespace Bankomaten
                 switch (loggedInMenu)
                 {
                     case 1:
+                        Console.Clear();
                         Accounts(savingsAccount, userid, paymentAccount);
                         break;
                     case 2:
+                        Console.Clear();
                         Transfer(savingsAccount, userid, paymentAccount);
                         break;
                     case 3:
+                        Console.Clear();
                         PrintOut(savingsAccount, userid, paymentAccount);
                         break;
                     case 4:
+                        Console.Clear();
                         StartMenu();
                         break;
-                    default:                        
+                    default:
+                        Console.Clear();
                         LoggedIn(users, userid);
                         break;
                 }
             }
             else
             {
-                Console.WriteLine("Ogiltigt val");
+                Console.WriteLine("Ogiltigt val");              
                 LoggedIn(users, userid);
             }
 
         }
 
-        static void Accounts(double[] savingsAccount, int userid, double[] paymentAccount)
+        static void Accounts(decimal[] savingsAccount, int userid, decimal[] paymentAccount)
         {
-            Console.WriteLine("Lönekonto: " + paymentAccount[userid] + "kr");
+            Console.WriteLine("\nLönekonto: " + paymentAccount[userid] + "kr");
             Console.WriteLine("Sparkonto: " + savingsAccount[userid] + "kr");
 
             Console.WriteLine("\nKlicka Enter för att komma till Menyn");
             ConsoleKeyInfo enter = Console.ReadKey();
             if (enter.Key == ConsoleKey.Enter)
             {
+                Console.Clear();
                 LoggedIn(users, userid);
             }
             else
             {                
                 Accounts(savingsAccount, userid, paymentAccount);
             }
-
-
         }
 
-        static void Transfer(double[] savingsAccount, int userid, double[] paymentAccount)
+        static void Transfer(decimal[] savingsAccount, int userid, decimal[] paymentAccount)
         {
-            Console.WriteLine("Välj konto att ta pengar från" +
+            Console.WriteLine("\nVälj konto att ta pengar från" +
                               "\n1: Lönekonto" +
                               "\n2: Sparkonto");
             try
             {
-                double transfer;
+                decimal transfer;
                 int chooseAccount = int.Parse(Console.ReadLine());
 
                 switch (chooseAccount)
@@ -176,7 +176,7 @@ namespace Bankomaten
                         {
                             case 1:
                                 Console.WriteLine("Hur mycket vill du överföra");
-                                transfer = double.Parse(Console.ReadLine());
+                                transfer = decimal.Parse(Console.ReadLine());
                                 if (transfer < 0 || transfer == 0)
                                 {
                                     Console.WriteLine("Ditt tal kan inte va 0 eller mindre");
@@ -207,7 +207,7 @@ namespace Bankomaten
                         {
                             case 1:
                                 Console.WriteLine("Hur mycket vill du överföra");
-                                transfer = double.Parse(Console.ReadLine());
+                                transfer = decimal.Parse(Console.ReadLine());
                                 if (transfer < 0 || transfer == 0)
                                 {
                                     Console.WriteLine("Ditt tal kan inte va 0 eller mindre");
@@ -235,6 +235,7 @@ namespace Bankomaten
                 ConsoleKeyInfo enter = Console.ReadKey();
                 if (enter.Key == ConsoleKey.Enter)
                 {
+                    Console.Clear();
                     LoggedIn(users, userid);
                 }
                 else
@@ -250,9 +251,9 @@ namespace Bankomaten
 
         }
 
-        static void PrintOut(double[] savingsAccount, int userid, double[] paymentAccount)
+        static void PrintOut(decimal[] savingsAccount, int userid, decimal[] paymentAccount)
         {
-            Console.WriteLine("Vilket konto vill du ta ut ifrån? " +
+            Console.WriteLine("\nVilket konto vill du ta ut ifrån? " +
                               "\n1: Sparkonto" +
                               "\n2: Lönekonto");
             try
@@ -263,7 +264,7 @@ namespace Bankomaten
                 {
                     case 1:
                         Console.WriteLine("Hur mycket pengar vill du ta ut? ");
-                        double takeMoney = double.Parse(Console.ReadLine());
+                        decimal takeMoney = decimal.Parse(Console.ReadLine());
                         Console.WriteLine("Bekräfta din transaktion med din pinkod");
                         int pinCode = int.Parse(Console.ReadLine());
 
@@ -296,7 +297,7 @@ namespace Bankomaten
 
                     case 2:
                         Console.WriteLine("Hur mycket pengar vill du ta ut? ");
-                        takeMoney = double.Parse(Console.ReadLine());
+                        takeMoney = decimal.Parse(Console.ReadLine());
                         Console.WriteLine("Bekräfta din transaktion med din pinkod");
                         pinCode = int.Parse(Console.ReadLine());
                         if (pinCode != passwords[userid])
@@ -314,7 +315,7 @@ namespace Bankomaten
                             if (takeMoney < 0 || takeMoney == 0)
                             {
                                 Console.WriteLine("Ditt tal kan inte va 0 eller mindre");
-                                LoggedIn(users, userid);
+                                LoggedIn(users, userid);                              
                             }
                             else
                             {
@@ -330,6 +331,7 @@ namespace Bankomaten
                 ConsoleKeyInfo enter = Console.ReadKey();
                 if (enter.Key == ConsoleKey.Enter)
                 {
+                    Console.Clear();
                     LoggedIn(users, userid);
                 }
                 else
