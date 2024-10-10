@@ -5,7 +5,7 @@ namespace Bankomaten
     internal class Program
     {
         static string[] users = ["Tim", "Adam", "Mos", "Sam", "Kim"];
-        static int[] passwords = [145, 223, 345, 412, 524];
+        static int[] passwords = [145, 223, 345, 4120, 5242];
         static int userid;
         static decimal[] savingsAccount = [500, 1000, 2500, 4204, 6000];
         static decimal[] paymentAccount = [1530, 250, 3536, 2500, 3302];
@@ -15,7 +15,7 @@ namespace Bankomaten
             StartMenu();
         }
 
-        //Method for user startmenu 
+        //StartMenu method for the user. 
         static void StartMenu()
         {
             Console.WriteLine("Välkommen till bankomaten");
@@ -71,13 +71,13 @@ namespace Bankomaten
                             LoggedIn(users, userid);
                         }
                     }
-                    //If statement that checks if the user not logged in guesses will increase.
+                    //If statement that checks if the user is not logged in guesses will increase.
                     if (!loggedIn)
                     {
                         guesses++;
                         Console.WriteLine("Fel lösenord eller användarnamn");
                     }
-
+                    //If guesses is 3 the program shutsdown. 
                     if (guesses == 3)
                     {
                         Console.WriteLine("Stänger bankomaten...");
@@ -294,7 +294,7 @@ namespace Bankomaten
                                 LoggedIn(users, userid);
                             }
                             else
-                            {   //Money gets printed out from the account if the other conditions is valid. 
+                            {   //Money gets printed out from the account if the other conditions are valid. 
                                 savingsAccount[userid] -= takeMoney;
                                 Console.WriteLine("Du tog ut " + takeMoney + "kr");
                                 takeMoney = 0;
