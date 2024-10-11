@@ -1,5 +1,5 @@
 ﻿
-
+//Tim Petersen SUT24
 namespace Bankomaten
 {
     internal class Program
