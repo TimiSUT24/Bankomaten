@@ -12,19 +12,19 @@ namespace Bankomaten
         static decimal[][] accounts = new decimal[][]
         {
             new decimal[] {1000,2030},
-            new decimal[] {5,6,7},
-            new decimal[] {9,10,11},
-            new decimal[] {13,14,15,16},
-            new decimal[] {17,18,19,20},
+            new decimal[] {5000,650,720},
+            new decimal[] {9050,1043,344},
+            new decimal[] {15004,1440,1340,2304},
+            new decimal[] {43040,184,1911,556},
         };
 
         static string[][] accountNames = new string[][]
         {
-            new string [] {"Sparkonto", "Konto" },
-            new string [] {"Investera","Test","Test1" },
-            new string [] {"La","Pa","Wa" },
-            new string [] {"Na", "No","Op","lo" },
-            new string [] {"Hej", "då", "dag", "mo" }
+            new string [] {"Sparkonto", "Lönekonto" },
+            new string [] {"Sparkonto","Lönekonto","Investeringskonto" },
+            new string [] {"Sparkonto","Lönekonto","Semesterkonto" },
+            new string [] {"Sparkonto", "Lönekonto","Roadtripkonto","Familjekonto" },
+            new string [] {"Sparkonto", "Lönekonto", "Semesterkonto", "Festkonto" }
         };
 
 
@@ -163,7 +163,7 @@ namespace Bankomaten
         //User can see the amount of money in the accounts 
         static void Accounts(int userid)
         {
-
+            //Loops accountnames and which user is logged in and shows what accounts that user has and money. 
             for(int display = 0; display < accountNames[userid].Length; display++)
             {
                 Console.WriteLine($"{display + 1} {accountNames[userid][display]}: {accounts[userid][display]}kr");
@@ -194,9 +194,16 @@ namespace Bankomaten
                     Console.WriteLine($"{display + 1} {accountNames[userid][display]}");
                    
                 }
-
-                int chooseAccount = int.Parse(Console.ReadLine()) - 1;
                 
+                int chooseAccount = int.Parse(Console.ReadLine()) - 1;
+                //If user types number outside of accountNames array that the user has it will restart the method. 
+                if (chooseAccount < 0 || chooseAccount >= accountNames[userid].Length)
+                {
+                    Console.WriteLine("Ogiltigt val");
+                    Transfer(userid);
+                }
+
+                //User chooses which account to tranfer to. 
                 Console.WriteLine("Välj konto att överföra till");
                 for (int transferAccount = 0; transferAccount < accountNames[userid].Length; transferAccount++)
                 {
@@ -204,27 +211,43 @@ namespace Bankomaten
                 }
 
                 int chooseTransfer = int.Parse(Console.ReadLine()) - 1;
+                if (chooseTransfer < 0 || chooseTransfer >= accountNames[userid].Length)
+                {
+                    Console.WriteLine("Ogiltigt val");
+                    Transfer(userid);
+                }
 
+                if(chooseTransfer == chooseAccount || chooseAccount == chooseTransfer )
+                {
+                    Console.WriteLine("Kan inte välja samma konto!!!"); 
+                    Transfer(userid);
+                }
+
+                //User chosses how much to take out.
                 Console.WriteLine("Hur mycket vill du överföra");
                 decimal amount = decimal.Parse(Console.ReadLine());
-
+                //If 0 or less goes to menu.
                 if (amount <= 0)
                 {
                     Console.WriteLine("Kan inte välja 0 eller mindre");
                     LoggedIn(users, userid);
                 }
-
+                //If Less or equal it will transfer money. 
                 if (amount <= accounts[userid][chooseAccount])
                 {
                     accounts[userid][chooseAccount] -= amount;
                     accounts[userid][chooseTransfer] += amount;
                     Console.WriteLine($"Överförde {amount}kr från {accountNames[userid][chooseAccount]} till {accountNames[userid][chooseTransfer]} ");
+                    Console.WriteLine($"Pengar på {accountNames[userid][chooseAccount]}: {accounts[userid][chooseAccount]}kr");
+                    Console.WriteLine($"Pengar på {accountNames[userid][chooseTransfer]}: {accounts[userid][chooseTransfer]}kr");
+
                 }
+                //If user takes out more money than the account. 
                 else
                 {
                     Console.WriteLine("Kan inte ta ut så mycket pengar");
                 }
-
+                //User goes to menu. 
                 Console.WriteLine("\nKlicka Enter för att komma till Menyn");
                 ConsoleKeyInfo enter = Console.ReadKey();
                 if (enter.Key == ConsoleKey.Enter)
@@ -242,15 +265,73 @@ namespace Bankomaten
                 LoggedIn(users,userid);
             }
 
-
-
-
         }
         //PrintOut method so user can take out money from accounts. 
         static void PrintOut(int userid)
         {
-            
-           
+            Console.WriteLine("Vilket konto vill du ta ut ifrån");
+            try
+            {   //Loop that shows all the accounts that the users has. 
+                for (int display = 0; display < accountNames[userid].Length; display++)
+                {
+                    Console.WriteLine($"{display + 1} {accountNames[userid][display]}: {accounts[userid][display]}kr");
+                }
+
+                int chooseAccount = int.Parse(Console.ReadLine()) - 1;
+                if(chooseAccount < 0 || chooseAccount >= accountNames[userid].Length)
+                {
+                    Console.WriteLine("Ogiltigt val");
+                    PrintOut(userid); 
+                }
+
+                //User types how much money and the pincode. 
+                Console.WriteLine("Hur mycket pengar vill du ta ut");
+                decimal takeMoney = decimal.Parse(Console.ReadLine());
+                Console.WriteLine("Bekräfta din transaktion med din pinkod");
+                int pinCode = int.Parse(Console.ReadLine());
+                //If wrong pin user starts over in the method. 
+                if (pinCode != passwords[userid])
+                {
+                    Console.WriteLine("Fel lösenord");
+                    PrintOut(userid);
+                }
+                else
+                {   //Goes to menu if less or 0.
+                    if(takeMoney <= 0)
+                    {
+                        Console.WriteLine("Ditt tal kan inte va 0 eller mindre");
+                        LoggedIn(users, userid);
+                    }
+                    //If right amount of money it will print out the money and show how much is left. 
+                    else if(takeMoney <= accounts[userid][chooseAccount])
+                    {
+                        accounts[userid][chooseAccount] -= takeMoney;
+                        Console.WriteLine("Du tog ut " + takeMoney + "kr");
+                        takeMoney = 0;
+                        Console.WriteLine($"Pengar på: {accountNames[userid][chooseAccount]} {accounts[userid][chooseAccount]}kr ");
+                        
+
+                    }
+                }
+                //User goes to menu. 
+                Console.WriteLine("\nKlicka Enter för att komma till Menyn");
+                ConsoleKeyInfo enter = Console.ReadKey();
+                if (enter.Key == ConsoleKey.Enter)
+                {
+                    Console.Clear();
+                    LoggedIn(users, userid);
+                }
+                else
+                {
+                    LoggedIn(users, userid);
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Fel input");
+                PrintOut(userid); 
+            }
+
 
         }
 
