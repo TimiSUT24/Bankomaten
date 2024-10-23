@@ -8,9 +8,10 @@ namespace Bankomaten
         static int[] passwords = [145, 223, 345, 4120, 5242];
         static int userid;
         
+        //Bankaccounts with Jaggedarrays 
         static decimal[][] accounts = new decimal[][]
         {
-            new decimal[] {1,2},
+            new decimal[] {1000,2030},
             new decimal[] {5,6,7},
             new decimal[] {9,10,11},
             new decimal[] {13,14,15,16},
@@ -162,7 +163,12 @@ namespace Bankomaten
         //User can see the amount of money in the accounts 
         static void Accounts(int userid)
         {
-          
+
+            for(int display = 0; display < accountNames[userid].Length; display++)
+            {
+                Console.WriteLine($"{display + 1} {accountNames[userid][display]}: {accounts[userid][display]}kr");
+            }
+           
             //User presses enter to return to menu 
             Console.WriteLine("\nKlicka Enter för att komma till Menyn");
             ConsoleKeyInfo enter = Console.ReadKey();
@@ -178,23 +184,72 @@ namespace Bankomaten
         }
         //Transfer method where the user can transfer money through other accounts. 
         static void Transfer(int userid)
-        {   
-            //User chooses which account to take money from. 
-            Console.WriteLine("\nVälj konto att ta pengar från" +
-                              "\n1: Lönekonto" +
-                              "\n2: Sparkonto");
-           
-
+        {
+            try
+            {
+                //User chooses which account to take money from. 
+                Console.WriteLine("Välj konto att ta pengar från.");
+                for (int display = 0; display < accountNames[userid].Length; display++)
+                {
+                    Console.WriteLine($"{display + 1} {accountNames[userid][display]}");
                    
-              
+                }
+
+                int chooseAccount = int.Parse(Console.ReadLine()) - 1;
+                
+                Console.WriteLine("Välj konto att överföra till");
+                for (int transferAccount = 0; transferAccount < accountNames[userid].Length; transferAccount++)
+                {
+                    Console.WriteLine($"{transferAccount + 1} {accountNames[userid][transferAccount]}");
+                }
+
+                int chooseTransfer = int.Parse(Console.ReadLine()) - 1;
+
+                Console.WriteLine("Hur mycket vill du överföra");
+                decimal amount = decimal.Parse(Console.ReadLine());
+
+                if (amount <= 0)
+                {
+                    Console.WriteLine("Kan inte välja 0 eller mindre");
+                    LoggedIn(users, userid);
+                }
+
+                if (amount <= accounts[userid][chooseAccount])
+                {
+                    accounts[userid][chooseAccount] -= amount;
+                    accounts[userid][chooseTransfer] += amount;
+                    Console.WriteLine($"Överförde {amount}kr från {accountNames[userid][chooseAccount]} till {accountNames[userid][chooseTransfer]} ");
+                }
+                else
+                {
+                    Console.WriteLine("Kan inte ta ut så mycket pengar");
+                }
+
+                Console.WriteLine("\nKlicka Enter för att komma till Menyn");
+                ConsoleKeyInfo enter = Console.ReadKey();
+                if (enter.Key == ConsoleKey.Enter)
+                {
+                    Console.Clear();
+                    LoggedIn(users, userid);
+                }
+                else
+                {
+                    LoggedIn(users, userid);
+                }
+            }
+            catch
+            {
+                LoggedIn(users,userid);
+            }
+
+
+
 
         }
         //PrintOut method so user can take out money from accounts. 
         static void PrintOut(int userid)
         {
-            Console.WriteLine("\nVilket konto vill du ta ut ifrån? " +
-                              "\n1: Sparkonto" +
-                              "\n2: Lönekonto");
+            
            
 
         }
