@@ -4,8 +4,8 @@ namespace Bankomaten
 {
     internal class Program
     {
-        static string[] users = ["Tim", "Adam", "Mos", "Sam", "Kim"];
-        static int[] passwords = [145, 223, 345, 4120, 5242];
+        static string[] users = { "Tim", "Adam", "Mos", "Sam", "Kim" };
+        static int[] passwords = { 145, 223, 345, 4120, 5242 };
         static int userid;
         
         //Bankaccounts with Jaggedarrays 
@@ -51,6 +51,7 @@ namespace Bankomaten
                             break;
                         case 2:
                             Console.WriteLine("Stänger bankomaten...");
+                            Environment.Exit(0); 
                             break;                          
                         default:
                             StartMenu();
