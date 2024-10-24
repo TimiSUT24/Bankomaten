@@ -213,12 +213,13 @@ namespace Bankomaten
                 }
 
                 int chooseTransfer = int.Parse(Console.ReadLine()) - 1;
+                
                 if (chooseTransfer < 0 || chooseTransfer >= accountNames[userid].Length)
                 {
                     Console.WriteLine("Ogiltigt val");
                     Transfer(userid);
                 }
-
+                //User cant choose same accounts. 
                 if(chooseTransfer == chooseAccount || chooseAccount == chooseTransfer )
                 {
                     Console.WriteLine("Kan inte välja samma konto!!!"); 
@@ -264,6 +265,7 @@ namespace Bankomaten
             }
             catch
             {
+                Console.WriteLine("Ogiltigt val"); 
                 LoggedIn(users,userid);
             }
 
