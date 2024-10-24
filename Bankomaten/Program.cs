@@ -98,8 +98,9 @@ namespace Bankomaten
                     }
                     //If guesses is 3 the program shutsdown. 
                     if (guesses == 3)
-                    {
+                    {                       
                         Console.WriteLine("Stänger bankomaten...");
+                        Environment.Exit(0);
                         break;
                     }
                 }
